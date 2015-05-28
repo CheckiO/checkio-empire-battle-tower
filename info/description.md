@@ -1,39 +1,12 @@
-Here is where we will code our units. All units in the current craft have the same code which runs when a battle start. Units can ask for information about a battle or subscribe to various events.
+Here is where we will code our tower.
+This code runs when a battle start.
+The tower can ask for information about a battle or subscribe to various events.
 
-**You main goal is destroy the enemy center**.
+**You main goal is defend your command center**.
 
 ## Get Started
 
-First we need to start a battle client for our unit.
-This object is the main interface to manage by unit.
-For that use the `commander` module with the `Client` class.
-
-```python
-from battle import commander
-unit_client = commander.Client()
-```
-
-Next we need the code to launch. This will kick off when we want our unit to attack the nearest enemy.
-To find the nearest enemy, we'll use the `ask_nearest_enemy` command from the client.
-This command will return a dictionary with item data. We only need the `id` now.
-Attack the enemy with the `attack_item` command.
-Next if we want to repeat the action after the enemy is destroyed, use the subscribe method with the
-callback function `subscribe_the_item_is_dead`. As an argument, this function receives the
-id of the item which we are watching. As a callback, we can use the same function to
-search for an enemy. Your function can receive a `data` argument which contains the data from a given event.
-Now call your function.
-
-
-```python
-def attack_nearest(data=None, *args, **kwargs)
-    nearest_enemy = unit_client.ask_nearest_enemy()
-    unit_client.attack_item(nearest_enemy["id"])
-    unit_client.subscribe_the_item_is_dead(nearest_enemy["id"], attack_nearest)
-
-attack_nearest()
-```
-
-After all that, your unit is ready to fight.
+SORRY, TBD
 
 ## Items
 

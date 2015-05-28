@@ -1,10 +1,18 @@
 from battle import commander
-unit_client = commander.Client()
-
-
-def search_and_destroy(data=None, *args, **kawargs):
-    enemy = unit_client.ask_nearest_enemy()
-    unit_client.attack_item(enemy['id'])
-    unit_client.subscribe_the_item_is_dead(enemy['id'], search_and_destroy)
-
-search_and_destroy()
+ 
+tower_client = commander.Client()
+ 
+ 
+def search_next_target(data, **kwargs):
+    enemies = tower_client.ask_enemy_items_in_my_firing_range()
+    if enemies:
+        unit_in_firing_range(enemies[0])
+    else:
+        tower_client.subscribe_enemy_in_my_firing_range(unit_in_firing_range)
+ 
+ 
+def unit_in_firing_range(data, **kwargs):
+    tower_client.attack_item(data['id'])
+    tower_client.subscribe_im_idle(search_next_target)
+ 
+tower_client.subscribe_enemy_in_my_firing_range(unit_in_firing_range)
