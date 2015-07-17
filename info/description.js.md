@@ -48,31 +48,35 @@ from battle import ROLE
 
 ## Ask info
 
-- `ask_my_info()` Returns information about the current item.
+- `askMyInfo(callback)` Returns information about the current item.
 
-- `ask_item_info(item_id)` Returns information about the item with `id == item_id` or None.
+- `askItemInfo(item_id, callback)` Returns information about the item with `id == item_id` or None.
 
-- `ask_enemy_items()` Returns a list with information on the enemy items.
+- `askEnemyItems(callback)` Returns a list with information on the enemy items.
 
-- `ask_my_items()` Returns a list with information on your items.
+- `askMyItems(callback)` Returns a list with information on your items.
 
-- `ask_buildings()` Returns a list with information for all buildings including the Command Center.
+- `askBuildings(callback)` Returns a list with information for all buildings including the Command Center.
 
-- `ask_towers()` Return a list with information of all towers.
+- `askTowers(callback)` Return a list with information of all towers.
 
-- `ask_center()` Returns information about the Command Center.
+- `askCenter(callback)` Returns information about the Command Center.
 
-- `ask_units()` Returns a list with information for all units.
+- `askUnits(callback)` Returns a list with information for all units.
 
-- `ask_nearest_enemy()` Returns information about the nearest enemy item.
+- `askNearestEnemy(callback)` Returns information about the nearest enemy item.
 
-- `ask_my_range_enemy_items()`  
+- `askMyRangeEnemyItems()`  
     Returns a list with information on all enemies in the current items firing range.
 
 ## Commands.
 
-- `do_attack(item_i)` Attack the item with `id == item_id`.
+- `doAttack(item_i, callback)` Attack the item with `id == item_id`.
     If the target is too far, then unit will move to the target.
+
+- `doMove(coordinates, callback)` A unit only command.
+    Move to the point with the given coordinates. _coordinates_: list/tuple of two int/float.
+
 
 ## Subscribes.
 
@@ -80,19 +84,20 @@ You can subscribe your units to an event, and when this event occurs the _callba
 will be called. The callback function will receive input data related to the subscription.
 All subscriptions are disposable and removed when triggered.
 
-- `when_in_area(center, radius, callback)` Triggered when the current unit is in
+- `whenInArea(center, radius, callback)` Triggered when the current unit is in
   the circle. _center_ are the coordinates of the center point and _radius_ is length of circle radius.
 
-- `when_item_in_area(center, radius, callback)` The same as `subscribe_im_in_area` but
+- `whenItemInArea(center, radius, callback)` The same as `subscribe_im_in_area` but
   triggered for any item.
 
-- `when_idle(callback)` Triggered when the current unit is idle (finishes moving or
+- `whenIdle(callback)` Triggered when the current unit is idle (finishes moving or
   destroys an enemy or doesn't have commands).
 
-- `when_enemy_in_range(callback)` Triggered when an enemy item is in the current item
+- `whenEnemyInRange(callback)` Triggered when an enemy item is in the current item
   firing range.
 
-- `when_enemy_out_range(item_id, callback)` Triggered when the item with _item_id_ is
+- `whenEnemyOutRange(item_id, callback)` Triggered when the item with _item_id_ is
   out of the current item firing range.
 
-- `when_item_destroyed(item_id, callback)` Triggered when the item with _item_id_ is destroyed.
+- `whenItemDestroyed(item_id, callback)` Triggered when the item with _item_id_ is destroyed.
+

@@ -1,18 +1,18 @@
 from battle import commander
- 
+
 tower_client = commander.Client()
- 
- 
-def search_next_target(data, **kwargs):
-    enemies = tower_client.ask_enemy_items_in_my_firing_range()
+
+
+def search_next_target(data=None, **kwargs):
+    enemies = tower_client.ask_my_range_enemy_items()
     if enemies:
         unit_in_firing_range(enemies[0])
     else:
-        tower_client.subscribe_enemy_in_my_firing_range(unit_in_firing_range)
- 
- 
+        tower_client.when_enemy_in_range(unit_in_firing_range)
+
+
 def unit_in_firing_range(data, **kwargs):
-    tower_client.attack_item(data['id'])
-    tower_client.subscribe_im_idle(search_next_target)
- 
-tower_client.subscribe_enemy_in_my_firing_range(unit_in_firing_range)
+    tower_client.do_attack(data['id'])
+    tower_client.when_idle(search_next_target)
+
+search_next_target()

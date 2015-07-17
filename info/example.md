@@ -2,12 +2,19 @@
 
 ```python
 from battle import commander
-unit_client = commander.Client()
 
-def search_and_destroy(data=None, *args, **kawargs):
-    enemy = unit_client.ask_nearest_enemy()
-    unit_client.attack_item(enemy['id'])
-    unit_client.subscribe_the_item_is_dead(enemy['id'], search_and_destroy)
+tower_client = commander.Client()
 
-search_and_destroy()
+def search_next_target(data=None, **kwargs):
+    enemies = tower_client.ask_my_range_enemy_items()
+    if enemies:
+        unit_in_firing_range(enemies[0])
+    else:
+        tower_client.when_enemy_in_range(unit_in_firing_range)
+
+def unit_in_firing_range(data, **kwargs):
+    tower_client.do_attack(data['id'])
+    tower_client.when_idle(search_next_target)
+
+search_next_target()
 ```
