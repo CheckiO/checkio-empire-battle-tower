@@ -36,7 +36,7 @@ Thus it is better to use the `dict.get` method. An item can have the following k
 
 You can use predefined constants instead of string variables.
 
-```python
+```javascript
 from battle import ROLE
 ```
 
@@ -71,10 +71,10 @@ from battle import ROLE
 
 ## Commands.
 
-- `doAttack(item_id, callback)` Attack the item with `id == item_id`.
+- `doAttack(item_id)` Attack the item with `id == item_id`.
     If the target is too far, then unit will move to the target.
 
-- `doMove(coordinates, callback)` A unit only command.
+- `doMove(coordinates)` A unit only command.
     Move to the point with the given coordinates. _coordinates_: list/tuple of two int/float.
 
 
