@@ -48,23 +48,23 @@ from battle import ROLE
 
 ## Ask info
 
-- `askMyInfo(callback)` Returns information about the current item.
+- `askMyInfo()` Returns information about the current item.
 
-- `askItemInfo(item_id, callback)` Returns information about the item with `id == item_id` or None.
+- `askItemInfo(item_id, )` Returns information about the item with `id == item_id` or None.
 
-- `askEnemyItems(callback)` Returns a list with information on the enemy items.
+- `askEnemyItems()` Returns a list with information on the enemy items.
 
-- `askMyItems(callback)` Returns a list with information on your items.
+- `askMyItems()` Returns a list with information on your items.
 
-- `askBuildings(callback)` Returns a list with information for all buildings including the Command Center.
+- `askBuildings()` Returns a list with information for all buildings including the Command Center.
 
-- `askTowers(callback)` Return a list with information of all towers.
+- `askTowers()` Return a list with information of all towers.
 
-- `askCenter(callback)` Returns information about the Command Center.
+- `askCenter()` Returns information about the Command Center.
 
-- `askUnits(callback)` Returns a list with information for all units.
+- `askUnits()` Returns a list with information for all units.
 
-- `askNearestEnemy(callback)` Returns information about the nearest enemy item.
+- `askNearestEnemy()` Returns information about the nearest enemy item.
 
 - `askMyRangeEnemyItems()`  
     Returns a list with information on all enemies in the current items firing range.
@@ -84,20 +84,28 @@ You can subscribe your units to an event, and when this event occurs the _callba
 will be called. The callback function will receive input data related to the subscription.
 All subscriptions are disposable and removed when triggered.
 
-- `whenInArea(center, radius, callback)` Triggered when the current unit is in
+_every function in this category returns a promice object so you can pass your callback function into its then method. For example:_
+
+```javascript
+client.whenItemDestroyed(data.id).then(attackNearest);
+```
+
+_Here https://www.promisejs.org/ you can find more about promices functionality_
+
+- `whenInArea(center, radius)` Triggered when the current unit is in
   the circle. _center_ are the coordinates of the center point and _radius_ is length of circle radius.
 
-- `whenItemInArea(center, radius, callback)` The same as `subscribe_im_in_area` but
+- `whenItemInArea(center, radius)` The same as `subscribe_im_in_area` but
   triggered for any item.
 
-- `whenIdle(callback)` Triggered when the current unit is idle (finishes moving or
+- `whenIdle()` Triggered when the current unit is idle (finishes moving or
   destroys an enemy or doesn't have commands).
 
-- `whenEnemyInRange(callback)` Triggered when an enemy item is in the current item
+- `whenEnemyInRange()` Triggered when an enemy item is in the current item
   firing range.
 
-- `whenEnemyOutRange(item_id, callback)` Triggered when the item with _item_id_ is
+- `whenEnemyOutRange(item_id)` Triggered when the item with _item_id_ is
   out of the current item firing range.
 
-- `whenItemDestroyed(item_id, callback)` Triggered when the item with _item_id_ is destroyed.
+- `whenItemDestroyed(item_id)` Triggered when the item with _item_id_ is destroyed.
 
