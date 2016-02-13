@@ -16,20 +16,19 @@ When you ask for info about items, you will receive a dictionary with the item d
 a list of these dictionaries. The item info for can contain various fields.
 Thus it is better to use the `dict.get` method. An item can have the following keys:
 
-- "id": (int) Unique identifier of the item. All items has this field.
-- "player_id": (int) Ownership of the item.
+- "id": (int) Unique identifier for the item. All items have this field.
+- "player_id": (int) the ownership of the item.
 - "role": (str) Describes the role of the item. It can be a `unit`, `tower`, `building`, `center`, or `obstacle`. You can read more below on the different roles.
-- "hit_points": (int/float) Defines the durability of the item. If "hit_points" is zero or below, then
-  the item is destroyed.
-- "coordinates": (list of two int/float): Item location coordinates. Units are single point objects.
+- "type": (str) Describes the type of the item. It can be a `sentryGun`, `infantryBot` etc.
+- "hit_points": (int/float) Defines the durability of the item. If "hit_points" is zero or lower, the item is destroyed.
+- "coordinates": (list of two int/float): The item's location coordinates. Units are single point objects.
   For large objects such as buildings, this field contains the coordinates of the center (middle) point.
-- "size": (int/float) Units don't have a size. All static objects (buildings, towers etc) are
-  square and the edge length is equal to their "size".
-- "action": (str) What the item is doing. It can be `idle`, `move`, `shoot`, or `charge`.
+- "size": (int/float) Units don't have a size. All static objects (buildings, towers etc) are square and the edge length is equal to their "size".
+- "status": (dict) What the item is doing.
 - "speed": (int/float) This is a unit attribute only. It describes how fast the unit may move.
-- "damage_per_shot": (int/float) This is a unit/tower attribute which describes how many hit points a shot will take.
-- "rate_of_fire": (int/float) This is a unit/tower attributewhich describes how many shots per second the item can do.
-- "firing_range": (int/float) This is a unit/tower attributewhich describes the maximum distance it can shoot.
+- "damage_per_shot": (int/float) This is a unit/tower attribute which describes how many hit points an attack will take.
+- "rate_of_fire": (int/float) This is a unit/tower attribute which describes how many attacks per second the item can take.
+- "firing_range": (int/float) This is a unit/tower attribute which describes the maximum distance it can attack.
 
 
 ### Roles
@@ -37,7 +36,7 @@ Thus it is better to use the `dict.get` method. An item can have the following k
 You can use predefined constants instead of string variables.
 
 ```javascript
-from battle import ROLE
+var ROLE = require("battle/terms.js").ROLE;
 ```
 
 - `unit` - Mobile fighting items. Appears from crafts. `ROLE.UNIT`
@@ -50,7 +49,7 @@ from battle import ROLE
 
 - `askMyInfo()` Returns information about the current item.
 
-- `askItemInfo(item_id, )` Returns information about the item with `id == item_id` or None.
+- `askItemInfo(item_id)` Returns information about the item with `id == item_id` or None.
 
 - `askEnemyItems()` Returns a list with information on the enemy items.
 
@@ -58,24 +57,40 @@ from battle import ROLE
 
 - `askBuildings()` Returns a list with information for all buildings including the Command Center.
 
-- `askTowers()` Return a list with information of all towers.
+- `askTowers()` Returns a list with information for all towers.
 
 - `askCenter()` Returns information about the Command Center.
 
 - `askUnits()` Returns a list with information for all units.
 
-- `askNearestEnemy()` Returns information about the nearest enemy item.
+- `askNearestEnemy()` Returns a list with information on all enemies in the current item's firing range.
 
 - `askMyRangeEnemyItems()`  
     Returns a list with information on all enemies in the current items firing range.
+
+```javascript
+var ROLE = require("battle/terms.js").ROLE;
+near_tower = client.askNearestEnemy([ROLE.TOWER])
+```
+
+- `askCurTime()`
+    Returns current in-game time. (secs)
+
 
 ## Commands.
 
 - `doAttack(item_id)` Attack the item with `id == item_id`.
     If the target is too far, then unit will move to the target.
 
-- `doMove(coordinates)` A unit only command.
-    Move to the point with the given coordinates. _coordinates_: list/tuple of two int/float.
+### LEVEL 4
+
+for units with level 4 or more.
+
+- `doMessageToId(message, item_id)` send a message to a unit with `item_id`.
+
+- `doMessageToCraft(message)` send a message to all units from your craft.
+
+- `doMessageToTeam(message)` send a message to all units from your team.
 
 
 ## Subscribes.
@@ -108,4 +123,16 @@ _Here https://www.promisejs.org/ you can find more about promices functionality_
   out of the current item firing range.
 
 - `whenItemDestroyed(item_id)` Triggered when the item with _item_id_ is destroyed.
+
+### LEVEL 2
+
+for units with level 2 or more.
+
+- `whenTime(secs)` Is triggered at a specific game time. Very useful for the synchronization of units.
+
+### LEVEL 4
+
+for units with level 4 or more.
+
+- `whenMessage()` Is triggered when a unit gets a message from another unit. Be aware that promise only resolve the first message in the stack. If you want to get another, you should call whenMessage again.
 
