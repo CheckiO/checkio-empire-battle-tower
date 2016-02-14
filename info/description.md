@@ -1,13 +1,47 @@
-Here is where we will code our tower.
+Let's work on some new code for our defense buildings. 
 
-This code runs when a battle start.    
-The tower can ask for information about a battle or subscribe to various events.
+The commanding principles are based on the 3 main groups of functions.
+
+**Asks** are started with _ask_. Ask functions provide information about the unit you control or environment around it. For example, check out the following code...
+
+```python
+from battle import commander
+tower_client = commander.Client()
+my_info = tower_client.ask_my_info()
+print("My ID:{}".format(my_info['id']))
+```
+
+... this shows a current towers's ID in the battle console.
+
+**Actions** are started with _do_. The Action function sends a command to a current tower. The tower can only hold information about the last command, so every following command will overwrite previous one. For example, check out the following code...
+
+```python
+from battle import commander
+tower_client = commander.Client()
+tower_client.do_attack(1)
+tower_client.do_attack(2)
+```
+
+... that code commands tower to attack unit with ID 2, but the tower will never attack unit with ID 1.
+
+**Subscriptions** are started with _when_. The subscribe function always has a callback argument. Callback is the function that gets called when a specific event occurs. For example, check out the following code...
+
+```python
+from battle import commander
+tower_client = commander.Client()
+
+def unit_in_firing_range(data, **kwargs):
+    tower_client.do_attack(data['id'])
+
+tower_client.when_enemy_in_range(unit_in_firing_range)
+```
+
+... that commands the tower to attack any enemy that comes into its firing range.
+
+**Prints**. Feel free to use the _print_ function and see every script's output in the right-hand panel for battle replays.
+
 
 **You main goal is defend your command center**.
-
-## Get Started
-
-SORRY, TBD
 
 ## Items
 
@@ -24,7 +58,8 @@ Thus it is better to use the `dict.get` method. An item can have the following k
   the item is destroyed.
 - "coordinates": (list of two int/float): Item location coordinates. Units are single point objects.
   For large objects such as buildings, this field contains the coordinates of the center (middle) point.
-- "size": (int/float) Units don't have a size. All static objects (buildings, towers etc) are square and the edge length is equal to their "size".
+- "size": (int/float) Units don't have a size. All static objects (buildings, towers etc) are
+  square and the edge length is equal to their "size".
 - "status": (dict) What the item is doing.
 - "speed": (int/float) This is a unit attribute only. It describes how fast the unit may move.
 - "damage_per_shot": (int/float) This is a unit/tower attribute which describes how many hit points a shot will take.
@@ -85,6 +120,7 @@ near_tower = unit_client.ask_nearest_enemy([ROLE.TOWER])
 - `do_attack(item_id)` Attack the item with `id == item_id`.
     If the target is too far, then unit will move to the target.
 
+<<<<<<< HEAD
 ### LEVEL 4
 
 for units with level 4 or more.
@@ -94,6 +130,9 @@ for units with level 4 or more.
 - `do_message_to_craft(message)` send a message to all units from your craft
 
 - `do_message_to_team(message)` send a message to all units from your team
+=======
+ - `do_attack_coordinates(coordinates)` _(for RocketGun only)_ send a rocket to the point with the given coordinates. _coordinates_: list/tuple of two int/float.
+>>>>>>> 460fde1915e8fea85f38470049ef111290198609
 
 ## Subscribes.
 
