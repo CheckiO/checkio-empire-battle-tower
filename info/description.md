@@ -120,7 +120,6 @@ near_tower = unit_client.ask_nearest_enemy([ROLE.TOWER])
 - `do_attack(item_id)` Attack the item with `id == item_id`.
     If the target is too far, then unit will move to the target.
 
-<<<<<<< HEAD
 ### LEVEL 4
 
 for units with level 4 or more.
@@ -130,9 +129,8 @@ for units with level 4 or more.
 - `do_message_to_craft(message)` send a message to all units from your craft
 
 - `do_message_to_team(message)` send a message to all units from your team
-=======
- - `do_attack_coordinates(coordinates)` _(for RocketGun only)_ send a rocket to the point with the given coordinates. _coordinates_: list/tuple of two int/float.
->>>>>>> 460fde1915e8fea85f38470049ef111290198609
+
+- `do_attack_coordinates(coordinates)` _(for RocketGun only)_ send a rocket to the point with the given coordinates. _coordinates_: list/tuple of two int/float.
 
 ## Subscribes.
 
